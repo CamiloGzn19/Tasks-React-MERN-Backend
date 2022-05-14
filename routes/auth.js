@@ -2,9 +2,10 @@
 const express = require("express");
 const router = express.Router();
 const { check } = require("express-validator");
+const auth = require("../middleware/auth");
 const authController = require("../controllers/authController");
 
-// Crea un usuario
+// Iniciar sesión
 // api/auth
 router.post("/", [
   check("email", "Agrega un email válido").isEmail(),
@@ -13,5 +14,11 @@ router.post("/", [
   }),
   authController.autenticarUsuario,
 ]);
+
+// Obtiene el usuario autenticado
+router.get("/",
+  auth,
+  authController.usuarioAutenticado,
+)
 
 module.exports = router;
